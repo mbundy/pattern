@@ -57,18 +57,21 @@ def run():
 	while True:
 		if reversepattern():
 			print("Reverse pattern...[", reversedpattern.__str__(), "]")
-			GPIO.output(18, GPIO.HIGH)
+			GPIO.output(8, GPIO.HIGH)
 		else:
 			print("Normal pattern...[", reversedpattern.__str__(), "]")
-			GPIO.output(18, GPIO.LOW)
+			GPIO.output(8, GPIO.LOW)
 		print("Information: ",information )
 		time.sleep(5)
 
 
 def interrupthandler(signum, frame):
 	print('Signal handler called with signal', signum)
+	GPIO.output(8, GPIO.HIGH)
+	time.sleep(0.25)
+	GPIO.output(8, GPIO.LOW)
 	print('Cleaning up...')
-	GPIO.cleanup(18)
+	GPIO.cleanup(8)
 	sys.exit()
 
 
@@ -77,8 +80,11 @@ reversedpattern = False
 
 
 if __name__ == "__main__":
-	GPIO.setmode(GPIO.BCM)
-	GPIO.setmode(GPIO.OUT)
+	GPIO.setwarnings(False)  # Ignore warning for now
+	GPIO.setmode(GPIO.BOARD)  # Use physical pin numbering
+	GPIO.setup(8, GPIO.OUT, initial=GPIO.LOW)  # Set pin 8 to be an output pin and set initial value to low (off)
+	GPIO.output(8, GPIO.HIGH)
+	time.sleep(0.25)
+	GPIO.output(8, GPIO.LOW)
 	signal.signal(signal.SIGINT, interrupthandler)
 	run()
-
