@@ -22,7 +22,7 @@ except ImportError:
 # parameter for urlopen
 def reversepattern():
 	# store the response of URL
-	url = "https://zdatis.clowd.io/api/kvny"
+	url = "https://datis.clowd.io/api/kvny"
 	global information
 	global reversedpattern
 	try:
